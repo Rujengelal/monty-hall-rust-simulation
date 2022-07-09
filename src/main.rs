@@ -1,10 +1,11 @@
 use rand::prelude::*;
-
+use std::time::Instant;
 fn main() {
     let mut rng = rand::thread_rng();
 
     let mut benchmark = Benchmark::new();
-    for _ in 0..10000 {
+    let start_time = Instant::now();
+    for _ in 0..100_000 {
         // Increment number of simulation counter by 1
         benchmark.number_of_games += 1;
         let doors: Vec<Door> = Door::random_door_options();
@@ -46,9 +47,10 @@ fn main() {
         benchmark.correct_guesses_before_changing as f32 / benchmark.number_of_games as f32
     );
     println!(
-        "Correct guess before after {}",
+        "Correct guess after changing {}",
         benchmark.correct_guesses_after_changing as f32 / benchmark.number_of_games as f32
     );
+    println!("Time taken is {}", start_time.elapsed().as_millis());
 }
 
 struct Door {
